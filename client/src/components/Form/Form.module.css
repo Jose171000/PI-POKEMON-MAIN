@@ -1,0 +1,12 @@
+.form{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+
+}
+.eachItem{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
