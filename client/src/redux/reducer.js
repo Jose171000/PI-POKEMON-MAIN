@@ -1,8 +1,9 @@
-import { GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_ALL_POKEMONS, POST_POKEMON } from "./action-types";
+import { GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_ALL_POKEMONS, POST_POKEMON, GET_ALL_TYPES } from "./action-types";
 
 const initialState = {
     pokemons: [],
-    allPokemons: []
+    allPokemons: [],
+    allTypes: []
 }
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -20,12 +21,18 @@ export const reducer = (state = initialState, { type, payload }) => {
         case GET_ALL_POKEMONS:
             return {
                 ...state,
-                allPokemons: [...state.allPokemons, ...payload]
+                allPokemons: [ ...payload],
+
             }
         case POST_POKEMON:
             return {
                 ...state,
                 pokemons: [...state.pokemons, payload]
+            }
+        case GET_ALL_TYPES:
+            return{
+                ...state,
+                allTypes: [...payload]
             }
         default:
             return {

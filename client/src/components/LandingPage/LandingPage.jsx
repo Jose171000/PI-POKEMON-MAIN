@@ -1,15 +1,13 @@
 import { Link } from 'react-router-dom'
-import { getAllPokemons } from '../../redux/actions'
-import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { getAllTypes } from '../../redux/actions'
+import { useDispatch } from 'react-redux'
 
 export default function LandingPage() {
     const dispatch = useDispatch()
-
     useEffect(()=>{
-        dispatch(getAllPokemons())
+        dispatch(getAllTypes())
     },[])
-
     return (
         <div>
             <Link to="/home">

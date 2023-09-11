@@ -1,31 +1,43 @@
 const axios = require("axios");
 const { Pokemon, Type } = require("../db")
+const { Op } = require("sequelize")
 
-
-const getAllDetails = async (url, every = []) => {
+const getAllDetails = async (url, currentPage) => {
   try {
-    const Data = await getAllPokemon(url)
-    const dbPokemons = await Pokemon.findAll();
-    for (const detail of Data) {
-      const { data } = await axios(detail.url)
+    let every = [];
+    const { data } = await axios(`${url}?offset=${currentPage * 12}&limit=12`)
+    const allDbPokemons = await Pokemon.findAll()
+
+    //Obtén los nombres de los Pokémon de la API
+    const apiPokemonNames = data.results.map(pokemon => pokemon.name)
+
+    //consultamos si algun pokemon está en la DB
+    const dbPokemons = await Pokemon.findAll({
+      where: {
+        name: {
+          [Op.in]: apiPokemonNames
+        }
+      }
+    });
+    // Filtra los pokemones que no existen en la base de datos
+    const newPokemons = data.results.filter(apiPokemon => {
+      return !dbPokemons.includes(apiPokemon.name);
+    });
+    //Recorro el array 'newPokemons' para hacer la petición de cada Pokemon 
+    for (const pokemon of newPokemons) {
+      const { data } = await axios(pokemon.url)
       let everyPoke = {
         id: data.id,
         name: data.name,
+        image: data.sprites['other']['official-artwork']['front_default'],
         height: data.height,
         weight: data.weight,
-        image: data.sprites['other']['official-artwork']['front_default'],
         types: data.types.map(type => type['type']['name']).join(', ')
       }
       every.push(everyPoke)
     }
-    //acá sacaremos los nombres de los pokemones de la base de datos
-    const dbPokemonNames = dbPokemons.map(dbPokemon => dbPokemon.name);
-
-    // Filtra los pokemones que no existen en la base de datos
-    const newPokemons = every.filter(apiPokemon => {
-      return !dbPokemonNames.includes(apiPokemon.name);
-    });
-    return [...newPokemons, ...dbPokemons]
+    // const createdAllPoke = await Pokemon.bulkCreate(newPokemons)
+    return [...every, ...allDbPokemons]
   } catch (error) {
     console.log("Hey, friend. There's something wrong in the Back-End area", error)
     throw error;
@@ -67,7 +79,7 @@ const getPokemonByID = async (id, source) => {
 }
 
 const searchByName = async (name) => {
-  if(!/^[a-zA-Z]+$/.test(name)) throw new Error("Name must be NaN")
+  if (!/^[a-zA-Z]+$/.test(name)) throw new Error("Name must be NaN")
   const allPokemons = []
   const control = [];
   const URL = "https://pokeapi.co/api/v2/pokemon";

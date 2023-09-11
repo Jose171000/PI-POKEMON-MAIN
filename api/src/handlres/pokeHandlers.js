@@ -3,8 +3,9 @@ const { getAllDetails, getPokemonByID, searchByName, postPokemon} = require("../
 const getAllPokemons = async (req, res) => {
     console.log("toy en getAllPokemons");
     try {
+        const {currentPage} = req.query
         const URL = "https://pokeapi.co/api/v2/pokemon";
-        const data = await getAllDetails(URL)
+        const data = await getAllDetails(URL, currentPage)
 
         return res.status(200).json({ msg: 'OK', result: data })
 

@@ -2,7 +2,7 @@ const express = require('express')
 const pokemonRoute = express.Router()
 const {getAllPokemons, getPokeById, getPokeByName, postPokemons} = require("../handlres/pokeHandlers.js")
 
-pokemonRoute.get("/", getAllPokemons)
+pokemonRoute.get("/currentPage", getAllPokemons)
 
 pokemonRoute.get("/name", getPokeByName)
 
