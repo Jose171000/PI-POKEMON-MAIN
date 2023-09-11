@@ -1,0 +1,16 @@
+.divContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual ancho */
+    gap: 10px;
+}
+
+/* .eachCard {
+    "background-color": "#f0f0f0",
+  "border": "1px solid #ccc",
+  "padding": "10px",
+  "text-align": "center",
+} */
+
+.eachCard:hover {
+    background-color: #ddd;
+}
