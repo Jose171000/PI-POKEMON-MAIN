@@ -17,6 +17,7 @@ export default function HomePage() {
     const [fewPokemons, setFewPokemons] = useState([])
     const [pokeFiltered, setPokeFiltered] = useState([])
     const [toggle, setToggle] = useState(true)
+    const [changePage, setChangePage] = useState(true)
 
 
     const handleOrder = (event) => {
@@ -80,51 +81,58 @@ export default function HomePage() {
         <div>
             <div className={style.menuContainer}>
 
-            <Nav />
-            <button onClick={handleOrder}>{textToggle ? "A-Z" : "Z-A"}</button>
-            <button>
-                <select value={selectedOption} onChange={handleOptions}>
-                    <option value="SHOW ALL">SHOW ALL</option>
-                    <option value="">TYPES</option>
-                    <option value="normal">normal</option>
-                    <option value="fighting">fighting</option>
-                    <option value="flying">flying</option>
-                    <option value="poison">poison</option>
-                    <option value="ground">ground</option>
-                    <option value="rock">rock</option>
-                    <option value="bug">bug</option>
-                    <option value="ghost">ghost</option>
-                    <option value="steel">steel</option>
-                    <option value="fire">fire</option>
-                    <option value="water">water</option>
-                    <option value="grass">grass</option>
-                    <option value="electric">electric</option>
-                    <option value="psychic">psychic</option>
-                    <option value="ice">ice</option>
-                    <option value="dragon">dragon</option>
-                    <option value="dark">dark</option>
-                    <option value="fairy">fairy</option>
-                    <option value="unknown">unknown</option>
-                    <option value="shadow">shadow</option>
+                <Nav />
+                <button onClick={handleOrder}>{textToggle ? "A-Z" : "Z-A"}</button>
+                <button>
+                    <select value={selectedOption} onChange={handleOptions}>
+                        <option value="SHOW ALL">SHOW ALL</option>
+                        <option value="">TYPES</option>
+                        <option value="normal">normal</option>
+                        <option value="fighting">fighting</option>
+                        <option value="flying">flying</option>
+                        <option value="poison">poison</option>
+                        <option value="ground">ground</option>
+                        <option value="rock">rock</option>
+                        <option value="bug">bug</option>
+                        <option value="ghost">ghost</option>
+                        <option value="steel">steel</option>
+                        <option value="fire">fire</option>
+                        <option value="water">water</option>
+                        <option value="grass">grass</option>
+                        <option value="electric">electric</option>
+                        <option value="psychic">psychic</option>
+                        <option value="ice">ice</option>
+                        <option value="dragon">dragon</option>
+                        <option value="dark">dark</option>
+                        <option value="fairy">fairy</option>
+                        <option value="unknown">unknown</option>
+                        <option value="shadow">shadow</option>
 
-                </select>
-            </button>
-            <Link to="/form">
-                <button>CREATE POKEMON</button>
-            </Link>
-            <div>
+                    </select>
+                </button>
+                <Link to="/form">
+                    <button>CREATE POKEMON</button>
+                </Link>
+                <div className={style.paging}>
 
-            <button value="previous" onClick={handlePagePrevious} disabled={currentPage < 1}>PREVIOUS PAGE</button>
-            <button value="next" onClick={handlePageNext}>NEXT PAGE</button>
+                    <button value="previous" onClick={handlePagePrevious} disabled={currentPage < 1}>PREVIOUS PAGE</button>
+                    
+                    <h3 className={style.currentPage}>{currentPage + 1}</h3>
+                    <button value="next" onClick={handlePageNext}>NEXT PAGE</button>
+                </div>
             </div>
-            </div>
-            <h3>{currentPage+1}</h3>
             <Cards
                 pokemons={toggle ? pokemons : fewPokemons}
             />
             <Cards
                 pokemons={toggle ? allPokemons : pokeFiltered}
             />
+            <div className={style.pagingBottom}>
+
+                <button value="previous" onClick={handlePagePrevious} disabled={currentPage < 1}>PREVIOUS PAGE</button>
+                <h3 className={style.currentPage}>{currentPage + 1}</h3>
+                <button value="next" onClick={handlePageNext}>NEXT PAGE</button>
+            </div>
         </div>
     )
 }

@@ -74,9 +74,16 @@ export default function PokeDetail() {
 
                     </div>
                     <div className={style.textContainer}>
-                        <h1>{id}</h1>
-                        <h1>Name: {poke?.name}</h1>
-                        <h1>Types: {poke?.types}</h1>
+                        <h3>{id}</h3>
+                        <h3>Name: {poke?.name}</h3>
+                        <h3>life: {poke?.life}</h3>
+                        <h3>attack: {poke?.attack}</h3>
+                        <h3>defense: {poke?.defense}</h3>
+                        <h3>velocity: {poke?.velocity}</h3>
+                        <h3>height: {poke?.height}</h3>
+                        <h3>weight: {poke?.weight}</h3>
+                        <h3>Types: {poke?.types}</h3>
+
                     </div>
                 </div>
             </div>

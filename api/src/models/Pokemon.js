@@ -18,19 +18,19 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     life: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     attack: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     defense: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     velocity: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
     height: {
       type: DataTypes.FLOAT

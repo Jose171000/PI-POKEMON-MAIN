@@ -69,7 +69,7 @@
 .name {
     z-index: 1;
     pointer-events: none;
-    margin-top: -120px;
+    margin-top: -50px;
     animation: flame 4s infinite;
 
 }
@@ -85,11 +85,10 @@
     pointer-events: none;
     z-index: 1;
     border: 5px solid black;
+    width: 250px;
     border-radius: 10px;
 }
-.imageContainer{
-    overflow: hidden;
-}
+
 
 .img {
 

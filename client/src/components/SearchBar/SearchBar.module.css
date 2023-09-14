@@ -2,7 +2,7 @@
     padding-bottom: 10px;
     padding-top: 15px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     /* Cambia esto al color que desees */
     color: #fff;
     /* Cambia esto al color del texto que desees */
-    padding: 40px;
+    /* padding: 40px; */
     background-image: url('../../assets/pokemon.jpg');
     /* Reemplaza 'ruta-de-tu-imagen.jpg' con la ruta correcta a tu imagen de fondo */
     background-size: 20% ;
@@ -19,4 +19,7 @@
     background-repeat: no-repeat;
     background-position: 50% 20%;
     z-index: 3;
+    padding-top: 35px;
+    padding-bottom: 35px;
+
 }

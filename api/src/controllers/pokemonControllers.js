@@ -67,11 +67,15 @@ const getPokemonByID = async (id, source) => {
   const currentPoke = {
     id: pokemonByID.id,
     name: pokemonByID.name,
-    height: pokemonByID.height,
-    weight: pokemonByID.weight,
     image: source === "externalAPI" ?
       pokemonByID.sprites['other']['official-artwork']['front_default']
       : pokemonByID.image,
+    life: pokemonByID.stats[0]['base_stat'],
+    attack: pokemonByID.stats[1]['base_stat'],
+    defense: pokemonByID.stats[2]['base_stat'],
+    velocity: pokemonByID.stats[3]['base_stat'],
+    height: pokemonByID.height,
+    weight: pokemonByID.weight,
     types: pokemonByID.types.map(type => type['type']['name']).join(', ')
   }
   if (!currentPoke.name) throw new Error("There's not a pokemon with that name");
