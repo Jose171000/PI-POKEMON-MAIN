@@ -1,0 +1,192 @@
+.divCard {
+    background-color: rgba(6, 73, 23, 0.778);
+    /* (64, 211, 101, 0.515 */
+    border: 10px solid black;
+    /* Combiné las propiedades border y border-color en una línea */
+    border-radius: 2rem;
+    width: 950px;
+    /* Cambié width a max-width para que no sea más ancho que la pantalla */
+    height: 85vh;
+    /* Usé vh (viewport height) en lugar de % para el alto */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* background-color: red; */
+    position: relative;
+}
+
+.paintTrail {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0);
+    background: radial-gradient(circle at center, transparent 50%, rgba(64, 211, 101, 0.2), rgba(64, 211, 101, 0.2));
+    pointer-events: none;
+    transition: background-color 0.3s;
+    pointer-events: none;
+}
+
+@keyframes flame {
+    0% {
+        color: #FF5733;
+        /* Color de la llama 1 */
+        text-shadow: 0 0 10px #FF5733;
+        /* Sombra de la llama 1 */
+    }
+
+    25% {
+        color: #FFC300;
+        /* Color de la llama 2 */
+        text-shadow: 0 0 10px #FFC300;
+        /* Sombra de la llama 2 */
+    }
+
+    50% {
+        color: #FF5733;
+        /* Color de la llama 1 */
+        text-shadow: 0 0 10px #FF5733;
+        /* Sombra de la llama 1 */
+    }
+
+    75% {
+        color: #FFC300;
+        /* Color de la llama 2 */
+        text-shadow: 0 0 10px #FFC300;
+        /* Sombra de la llama 2 */
+    }
+
+    100% {
+        color: #FF5733;
+        /* Color de la llama 1 */
+        text-shadow: 0 0 10px #FF5733;
+        /* Sombra de la llama 1 */
+    }
+}
+
+.name {
+    z-index: 1;
+    pointer-events: none;
+    margin-top: -120px;
+    animation: flame 4s infinite;
+
+}
+
+.divContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.textContainer {
+    background-color: rgba(64, 211, 101, 0.737);
+    pointer-events: none;
+    z-index: 1;
+    border: 5px solid black;
+    border-radius: 10px;
+}
+.imageContainer{
+    overflow: hidden;
+}
+
+.img {
+
+    z-index: 1;
+    pointer-events: auto;
+    position: relative;
+    width: 100%;
+    margin-top: -10px;
+    margin-left: -90px;
+    transition: .5s;
+
+}
+
+.closeButton {
+    position: fixed;
+    z-index: 10;
+    transition: .5s;
+    top: 5em;
+    left: 60em;
+    border-radius: 50%;
+    font-size: large;
+    width: 0px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.closeButton:hover {
+    background-color: red;
+    transform: .5s;
+}
+
+.curtain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(98, 95, 95, 0.952);
+    /* Fondo oscuro con opacidad (ajusta el valor alpha según lo desees) */
+    z-index: 1000;
+    /* Asegúrate de que la capa esté por encima de otros elementos */
+    transition: 2s;
+    z-index: 2;
+}
+
+.imgOnClick {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    transition: 1s;
+    z-index: 10;
+}
+
+.imgOnClick:hover .divCard {
+    pointer-events: none;
+}
+
+.img:hover {
+    /* background-color: red; */
+    transform: scale(1.1);
+    transition: 1s;
+    cursor: pointer;
+}
+
+.img:hover .divCard {
+    pointer-events: none;
+
+}
+
+.imageOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    /* Puedes definir un color transparente */
+    pointer-events: auto;
+    /*Permite eventos de mouse en esta capa*/
+    z-index: 0;
+    /* Coloca la capa por encima de .img */
+    opacity: 0;
+    /* La capa inicialmente invisible */
+}
+
+.imageOverlay:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Cambia el color de fondo en hover */
+    opacity: 0;
+    /* Muestra la capa en hover */
+}
+
+.img:hover .imageOverlay {
+    pointer-events: none;
+
+}

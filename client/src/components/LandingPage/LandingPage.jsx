@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { getAllTypes } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
+import style from "./LandingPage.module.css"
 
 export default function LandingPage() {
     const dispatch = useDispatch()
@@ -11,7 +12,7 @@ export default function LandingPage() {
     return (
         <div>
             <Link to="/home">
-                <button>HOME</button>
+                <button className={style.boton}>HOME</button>
             </Link>
         </div>
     )

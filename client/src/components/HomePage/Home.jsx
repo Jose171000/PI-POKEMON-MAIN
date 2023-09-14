@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { getAllPokemons } from "../../redux/actions"
+import style from "./Home.module.css"
 
 
 export default function HomePage() {
@@ -77,6 +78,8 @@ export default function HomePage() {
 
     return (
         <div>
+            <div className={style.menuContainer}>
+
             <Nav />
             <button onClick={handleOrder}>{textToggle ? "A-Z" : "Z-A"}</button>
             <button>
@@ -109,8 +112,12 @@ export default function HomePage() {
             <Link to="/form">
                 <button>CREATE POKEMON</button>
             </Link>
+            <div>
+
             <button value="previous" onClick={handlePagePrevious} disabled={currentPage < 1}>PREVIOUS PAGE</button>
             <button value="next" onClick={handlePageNext}>NEXT PAGE</button>
+            </div>
+            </div>
             <h3>{currentPage+1}</h3>
             <Cards
                 pokemons={toggle ? pokemons : fewPokemons}

@@ -3,7 +3,8 @@ import { GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_ALL_POKEMONS, POST_POKEMON,
 const initialState = {
     pokemons: [],
     allPokemons: [],
-    allTypes: []
+    allTypes: [],
+    pokeDetail: {}
 }
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -11,7 +12,7 @@ export const reducer = (state = initialState, { type, payload }) => {
         case GET_POKEMON_BY_ID:
             return {
                 ...state,
-                pokemons: [...state.pokemons, payload]
+                pokeDetail: {...payload}
             }
         case GET_POKEMON_BY_NAME:
             return {

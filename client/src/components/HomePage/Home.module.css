@@ -1,5 +1,6 @@
 .menuContainer {
-    display: flex;
+    margin-top: 100px;
+    /* display: flex;
     flex-direction: column;
     max-width: 200px;
     transition: transform 0.3s ease-in-out;
@@ -10,7 +11,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    z-index: 1;
+    z-index: 1; */
 }
 
 .open {
