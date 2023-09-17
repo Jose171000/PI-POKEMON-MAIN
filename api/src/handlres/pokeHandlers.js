@@ -1,9 +1,11 @@
-const { getAllDetails, getPokemonByID, searchByName, postPokemon} = require("../controllers/pokemonControllers.js")
+const { getAllDetails, getPokemonByID, searchByName, postPokemon } = require("../controllers/pokemonControllers.js")
+const axios = require("axios")
+const {Pokemon} = require("../db.js")
 
 const getAllPokemons = async (req, res) => {
     console.log("toy en getAllPokemons");
     try {
-        const {currentPage} = req.query
+        const { currentPage } = req.query
         const URL = "https://pokeapi.co/api/v2/pokemon";
         const data = await getAllDetails(URL, currentPage)
 
@@ -55,10 +57,27 @@ const postPokemons = async (req, res) => {
         console.log(error.message);
     }
 }
+const deletePoke = async (id) => {
+    const poke = Pokemon.destroy({where:{
+        id
+    }})
+    return poke
+}
+const deletePokemon = async (req, res) => {
+    console.log("estoy en deletePokemon");
+    try {
+        const {id} = req.body
+        const deletePok = await deletePoke(id)
+        res.json({result:deletePok})
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
 
 module.exports = {
     getAllPokemons,
     getPokeById,
     getPokeByName,
-    postPokemons
+    postPokemons,
+    deletePokemon
 }

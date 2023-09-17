@@ -124,16 +124,20 @@ const postPokemon = async (pokeByBody) => {
     for (let type of types) {
       type = type.toLowerCase()
       const pokeTypes = await Type.findOne({ where: { name: type } })
-      createdPokemon.addTypes(pokeTypes.id)
+      await createdPokemon.addTypes(pokeTypes.id)
 
     }
   } else {
     types = types.toLowerCase()
     const pokeType = await Type.findOne({ where: { name: types } })
-    createdPokemon.addTypes(pokeType.id)
+    await createdPokemon.addTypes(pokeType.id)
   }
+  const officialPokeCreated = await Pokemon.findByPk(createdPokemon.id, {
+    include: Type
+  })
+  
 
-  return createdPokemon
+  return officialPokeCreated
 }
 
 

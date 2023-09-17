@@ -3,34 +3,60 @@ import Nav from "../Nav/Nav"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { getAllPokemons } from "../../redux/actions"
+import { getAllPokemons, filteredFromAPI, filteredFromDB, deletePokemon } from "../../redux/actions"
 import style from "./Home.module.css"
 
 
 export default function HomePage() {
-    const pokemons = useSelector(state => state.pokemons)
+    const filterByOrigin = useSelector(state => state.filterByOrigin)
     const allPokemons = useSelector(state => state.allPokemons);
     const dispatch = useDispatch()
     const [currentPage, setCurrentPage] = useState(0)
     const [textToggle, setTextToggle] = useState(true);
     const [selectedOption, setSelectedOption] = useState('')
-    const [fewPokemons, setFewPokemons] = useState([])
     const [pokeFiltered, setPokeFiltered] = useState([])
     const [toggle, setToggle] = useState(true)
-    const [changePage, setChangePage] = useState(true)
+    const [showAllToggle, setShowAllToggle] = useState(true)
 
+    const handleShowAllButton = (event) => {
+        event.preventDefault()
+        handleOptions(event)
+        setSelectedOption("types")
+        setShowAllToggle(true)
+    }
+
+
+    const filterAPI = (event) => {
+        event.preventDefault()
+        handleOptions(event)
+        setSelectedOption("types")
+        dispatch(filteredFromAPI())
+        setShowAllToggle(false)
+    }
+
+    const filterDB = (event) => {
+        event.preventDefault()
+        console.log(event.target.value);
+        handleOptions(event)
+        setSelectedOption("types")
+        dispatch(filteredFromDB())
+        setShowAllToggle(false)
+    }
 
     const handleOrder = (event) => {
-        console.log(event.target)
-        if (textToggle) {
-            console.log(pokemons);
-            pokemons.sort((a, b) => a.name.localeCompare(b.name))
-            allPokemons.sort((a, b) => a.name.localeCompare(b.name))
-            console.log(pokemons);
+        event.preventDefault()
+        if (showAllToggle) {
+            if (textToggle) {
+                allPokemons.sort((a, b) => a.name.localeCompare(b.name))
+            } else {
+                allPokemons.sort((a, b) => b.name.localeCompare(a.name))
+            }
         } else {
-            pokemons.sort((a, b) => b.name.localeCompare(a.name))
-            allPokemons.sort((a, b) => b.name.localeCompare(a.name))
-            console.log(pokemons);
+            if (textToggle) {
+                filterByOrigin.sort((a, b) => a.name.localeCompare(b.name))
+            } else {
+                filterByOrigin.sort((a, b) => b.name.localeCompare(a.name))
+            }
         }
         setTextToggle(!textToggle)
 
@@ -44,37 +70,41 @@ export default function HomePage() {
 
         console.log(selectedOption);
 
-        const filteredPoke = pokemons.filter((poke) => {
-            const type = poke.types.split(', ').map(word => word.trim());
-            return type.includes(option)
-        })
-        const allFilteredPoke = allPokemons.filter((poke) => {
+        const allFilteredPoke = showAllToggle ? allPokemons.filter((poke) => {
             console.log("estoy filtrando lo que viene de Allpoke");
-            const type = poke.types.split(', ').map(word => word.trim());
+            const type = poke.types?.split(', ').map(word => word.trim());
             return type.includes(option)
-        })
-
+        }) :
+            filterByOrigin.filter((poke) => {
+                console.log("estoy filtrando lo que viene de Allpoke");
+                const type = poke.types?.split(', ').map(word => word.trim());
+                return type.includes(option)
+            })
         setToggle(false)
         setPokeFiltered(allFilteredPoke)
-        console.log(filteredPoke);
-        setFewPokemons(filteredPoke);
+        // console.log(filteredPoke);
+        // setFewPokemons(filteredPoke);
 
     }
-    const handlePageNext = (event) => {
-        event.preventDefault()
-        setCurrentPage(currentPage + 1)
 
-        console.log(currentPage);
-    }
-    const handlePagePrevious = (event) => {
+
+    const handlePage = (event) => {
         event.preventDefault()
-        setCurrentPage(currentPage - 1)
+        if (event.target.name === "next") {
+            setCurrentPage(currentPage + 1)
+        } else {
+            setCurrentPage(currentPage - 1)
+        }
+        handleOptions(event)
+        setSelectedOption("types")
         console.log(currentPage);
     }
+    useEffect(()=>{
+        dispatch(filteredFromAPI())
+    },[allPokemons])
     useEffect(() => {
         setCurrentPage(currentPage)
         dispatch(getAllPokemons(currentPage))
-        // setEveryPoke(allPokemons)
     }, [currentPage])
 
     return (
@@ -82,11 +112,13 @@ export default function HomePage() {
             <div className={style.menuContainer}>
 
                 <Nav />
+                {showAllToggle ? null : <button onClick={handleShowAllButton} value="SHOW ALL">Show all</button>}
+
                 <button onClick={handleOrder}>{textToggle ? "A-Z" : "Z-A"}</button>
                 <button>
                     <select value={selectedOption} onChange={handleOptions}>
-                        <option value="SHOW ALL">SHOW ALL</option>
                         <option value="">TYPES</option>
+                        <option value="SHOW ALL">SHOW ALL</option>
                         <option value="normal">normal</option>
                         <option value="fighting">fighting</option>
                         <option value="flying">flying</option>
@@ -110,28 +142,26 @@ export default function HomePage() {
 
                     </select>
                 </button>
+                <button value="SHOW ALL" onClick={filterAPI}>All from external API</button>
+                <button value="SHOW ALL" onClick={filterDB}>All from DB</button>
                 <Link to="/form">
                     <button>CREATE POKEMON</button>
                 </Link>
                 <div className={style.paging}>
-
-                    <button value="previous" onClick={handlePagePrevious} disabled={currentPage < 1}>PREVIOUS PAGE</button>
-                    
+                    <button name="previous" value="SHOW ALL" onClick={handlePage} disabled={currentPage < 1}>PREVIOUS PAGE</button>
                     <h3 className={style.currentPage}>{currentPage + 1}</h3>
-                    <button value="next" onClick={handlePageNext}>NEXT PAGE</button>
+                    <button name="next" value="SHOW ALL"  onClick={handlePage} >NEXT PAGE</button>
                 </div>
             </div>
-            <Cards
-                pokemons={toggle ? pokemons : fewPokemons}
-            />
-            <Cards
+            {showAllToggle ? <Cards
                 pokemons={toggle ? allPokemons : pokeFiltered}
-            />
+            /> :
+                <Cards pokemons={toggle ? filterByOrigin : pokeFiltered} />}
             <div className={style.pagingBottom}>
 
-                <button value="previous" onClick={handlePagePrevious} disabled={currentPage < 1}>PREVIOUS PAGE</button>
+                <button name="previous" value="SHOW ALL" onClick={handlePage} disabled={currentPage < 1}>PREVIOUS PAGE</button>
                 <h3 className={style.currentPage}>{currentPage + 1}</h3>
-                <button value="next" onClick={handlePageNext}>NEXT PAGE</button>
+                <button name="next" value="SHOW ALL" onClick={handlePage} >NEXT PAGE</button>
             </div>
         </div>
     )

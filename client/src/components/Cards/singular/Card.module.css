@@ -9,7 +9,7 @@
 .card:hover {
     display: block;
     transition: 1s;
-    z-index: 3px;
+    z-index: 3;
 }
 
 .cardContainer {
@@ -21,6 +21,7 @@
     z-index: 0;
     transition: 1s;
     border-radius: 1rem;
+    overflow: hidden;
 }
 
 .cardContainer:hover {
@@ -54,7 +55,7 @@
 }
 
 .name {
-    position:relative;
+    position: relative;
     font-size: 40px;
     bottom: -100px;
     left: 0;
@@ -65,8 +66,80 @@
     transition: 1s;
     z-index: 4;
 }
-.cardContainer:hover .name{
+
+.cardContainer:hover .name {
     color: rgb(0, 0, 0);
     /* opacity: 1; */
+    transition: .4s;
+}
+
+.closeButton {
+    position: absolute;
+    opacity: .2;
+    top: 0px;
+    right: 0px;
+    transition: .6s;
+    background-color: rgba(255, 0, 0, 0.81);
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.3);
+    z-index: 6;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    transition:1s;
+    outline: none; /* Elimina el contorno de foco */
+
+}
+
+.cardContainer:hover .closeButton {
+    display: flex;
+    transition: 1s;
+
+}
+
+.closeButton:hover {
+    opacity: 1;
+    transition: .3s;
+    animation: pulse .8s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        background-color: red ;
+    }
+
+    50% {
+        transform: scale(1.15);
+        background-color: rgb(255, 81, 0) ;
+
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: red ;
+
+    }
+}
+
+.types{
+    z-index: 4;
+    opacity: 0;
+    color: black;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    top: 75%;
+    right: 20%;
+    left: 30%;
+    transition: 1s;
+}
+.cardContainer:hover .types{
+    opacity: 0.9;
     transition: .4s;
 }

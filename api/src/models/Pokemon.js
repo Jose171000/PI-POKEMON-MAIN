@@ -14,8 +14,8 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     image: {
-      type: DataTypes.BLOB,
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     life: {
       type: DataTypes.INTEGER,

@@ -1,4 +1,4 @@
-import { GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_ALL_POKEMONS, POST_POKEMON, GET_ALL_TYPES } from "./action-types";
+import { GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_ALL_POKEMONS, POST_POKEMON, GET_ALL_TYPES, DELETE_POKEMON, FROM_API_EXTERNAL, FROM_DATA_BASE, DELETE_POKEMON_API } from "./action-types";
 import axios from "axios"
 const VITE_SERVER_URL = import.meta.env.VITE_SERVER_URL
 const VITE_SERVER_URL_TYPES = import.meta.env.VITE_SERVER_URL_TYPES
@@ -58,6 +58,44 @@ export const getAllTypes = () => {
             dispatch({ type: GET_ALL_TYPES, payload: data.result })
         } catch (error) {
             console.log(error.message)
+        }
+    }
+}
+
+export const deletePokemon = (id) => {
+    return async (dispatch)=>{
+        try {
+            if(isNaN(Number(id))){
+                const {data} = await axios.delete(VITE_SERVER_URL, {id})
+                dispatch({type:DELETE_POKEMON, payload:data})
+            }else{
+                dispatch({type:DELETE_POKEMON_API, payload:id})
+            }
+            
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+}
+
+export const filteredFromAPI = () =>{
+    console.log("estoy en fromAPI");
+    return async (dispatch) =>{
+        try {
+            dispatch({type: FROM_API_EXTERNAL})
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+}
+
+export const filteredFromDB = () =>{
+    console.log("estoy en fromDB");
+    return async (dispatch)=>{
+        try {
+            dispatch({type: FROM_DATA_BASE})            
+        } catch (error) {
+            alert(error.message)
         }
     }
 }
