@@ -66,8 +66,8 @@ export const deletePokemon = (id) => {
     return async (dispatch)=>{
         try {
             if(isNaN(Number(id))){
-                const {data} = await axios.delete(VITE_SERVER_URL, {id})
-                dispatch({type:DELETE_POKEMON, payload:data})
+                const {data} = await axios.delete(`${VITE_SERVER_URL}delete?id=${id}`)
+                dispatch({type:DELETE_POKEMON_API, payload:id})
             }else{
                 dispatch({type:DELETE_POKEMON_API, payload:id})
             }

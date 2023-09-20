@@ -6,7 +6,7 @@ const initialState = {
     allTypes: [],
     pokeDetail: {},
     filterByOrigin: [],
-    deleteCounter:0
+    deleteCounter: 0
 }
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -22,9 +22,20 @@ export const reducer = (state = initialState, { type, payload }) => {
                 allPokemons: [...state.allPokemons, ...payload]
             }
         case GET_ALL_POKEMONS:
+            const allPoke = payload.map(poke => {
+                if (isNaN(Number(poke['id']))) {
+                    const DBPoke = {
+                        ...poke,
+                        types: poke['types'].length === 1 ? `${poke['types'][0]['name']}` : `${poke['types'][0]['name']}, ${poke['types'][1]['name']}`
+                    }
+                    return DBPoke
+                } else {
+                    return poke;
+                }
+            })
             return {
                 ...state,
-                allPokemons: [...payload],
+                allPokemons: [...allPoke],
 
             }
         case POST_POKEMON:
@@ -48,14 +59,14 @@ export const reducer = (state = initialState, { type, payload }) => {
                 filterByOrigin: [...state.allPokemons.filter(poke => isNaN(Number(poke['id'])))]
             }
         case DELETE_POKEMON:
-            return{
+            return {
                 ...state,
-                deleteCounter:state.deleteCounter+payload
+                deleteCounter: state.deleteCounter + payload
             }
         case DELETE_POKEMON_API:
-            return{
+            return {
                 ...state,
-                allPokemons: state.allPokemons.filter(pokes=>pokes.id!==payload)
+                allPokemons: state.allPokemons.filter(pokes => pokes.id !== payload)
             }
         default:
             return {

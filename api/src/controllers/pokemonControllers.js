@@ -1,15 +1,15 @@
 const axios = require("axios");
-const { Pokemon, Type } = require("../db")
 const { Op } = require("sequelize")
+const { Pokemon, Type } = require("../db")
 
 const getAllDetails = async (url, currentPage) => {
   try {
     let every = [];
     const { data } = await axios(`${url}?offset=${currentPage * 12}&limit=12`)
-    const allDbPokemons = await Pokemon.findAll()
+    const allDbPokemons = await Pokemon.findAll({include: Type})
 
     //Obtén los nombres de los Pokémon de la API
-    const apiPokemonNames = data.results.map(pokemon => pokemon.name)
+    const apiPokemonNames = data.results.map(pokemon => pokemon.name.trim())
 
     //consultamos si algun pokemon está en la DB
     const dbPokemons = await Pokemon.findAll({
@@ -18,6 +18,7 @@ const getAllDetails = async (url, currentPage) => {
           [Op.in]: apiPokemonNames
         }
       }
+      
     });
     // Filtra los pokemones que no existen en la base de datos
     const newPokemons = data.results.filter(apiPokemon => {
@@ -59,25 +60,41 @@ const getAllPokemon = async (url, allPoke = []) => {
 };
 
 const getPokemonByID = async (id, source) => {
-  const pokemonByID = source === "externalAPI"
-    ?
-    (await axios(`https://pokeapi.co/api/v2/pokemon/${id}`)).data
-    : await Pokemon.findByPk(id);
+  let currentPoke = {}
+  if(source === "externalAPI"){
+    const pokemonByID = (await axios(`https://pokeapi.co/api/v2/pokemon/${id}`)).data;
+    currentPoke = {
+      id: pokemonByID.id,
+      name: pokemonByID.name,
+      image: source === "externalAPI" ?
+        pokemonByID.sprites['other']['official-artwork']['front_default']
+        : pokemonByID.image,
+      life: pokemonByID.stats[0]['base_stat'],
+      attack: pokemonByID.stats[1]['base_stat'],
+      defense: pokemonByID.stats[2]['base_stat'],
+      velocity: pokemonByID.stats[3]['base_stat'],
+      height: pokemonByID.height,
+      weight: pokemonByID.weight,
+      types: pokemonByID.types.map(type => type['type']['name']).join(', ')
+    }
+    
+  }else{
+    const pokemonByID = await Pokemon.findByPk(id, {include: Type});
+    currentPoke = {
+      id: pokemonByID.id,
+      name: pokemonByID.name,
+      image: pokemonByID.image,
+      life: pokemonByID.life,
+      attack: pokemonByID.attack,
+      defense: pokemonByID.defense,
+      velocity: pokemonByID.velocity,
+      height: pokemonByID.height,
+      weight: pokemonByID.weight,
+      types: pokemonByID['types'].length===1 ? `${pokemonByID['types'][0]['name']}` : `${pokemonByID['types'][0]['name']}, ${pokemonByID['types'][1]['name']}`
+    }
 
-  const currentPoke = {
-    id: pokemonByID.id,
-    name: pokemonByID.name,
-    image: source === "externalAPI" ?
-      pokemonByID.sprites['other']['official-artwork']['front_default']
-      : pokemonByID.image,
-    life: pokemonByID.stats[0]['base_stat'],
-    attack: pokemonByID.stats[1]['base_stat'],
-    defense: pokemonByID.stats[2]['base_stat'],
-    velocity: pokemonByID.stats[3]['base_stat'],
-    height: pokemonByID.height,
-    weight: pokemonByID.weight,
-    types: pokemonByID.types.map(type => type['type']['name']).join(', ')
   }
+
   if (!currentPoke.name) throw new Error("There's not a pokemon with that name");
   return currentPoke;
 }

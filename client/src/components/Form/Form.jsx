@@ -8,6 +8,7 @@ import validation from "./validation"
 export default function Form() {
     const dispatch = useDispatch()
     const [plusToggle, setPlusToggle] = useState(true)
+    const [messageToggle, setMessageToggle] = useState(true)
     const [types, setTypes] = useState({
         types: "",
         types2: ""
@@ -17,14 +18,20 @@ export default function Form() {
         image: "",
         life: "",
         attack: "",
-        defense: ""
+        defense: "",
+        velocity: "",
+        height:"",
+        weight:""
     })
     const [error, setError] = useState({
         name: "",
         image: "",
         life: "",
         attack: "",
-        defense: ""
+        defense: "",
+        velocity: "",
+        height:"",
+        weight:""
     })
 
 
@@ -79,14 +86,20 @@ export default function Form() {
             image: "",
             life: "",
             attack: "",
-            defense: ""
+            defense: "",
+            velocity: "",
+            height:"",
+            weight:""
         })
         setPokeData({
             name: "",
             image: "",
             life: "",
             attack: "",
-            defense: ""
+            defense: "",
+            velocity: "",
+            height:"",
+            weight:""
         })
         setTypes({
             types: "",
@@ -125,6 +138,21 @@ export default function Form() {
                 <input type="text" name="defense" value={pokeData.defense} onChange={handleChange} />
             </div>
             {error.defense && <p>{error.defense}</p>}
+            <div>
+                <label htmlFor="velocity">velocity</label>
+                <input type="text" name="velocity" value={pokeData.velocity} onChange={handleChange}/>
+            </div>
+            {error.velocity && <p>{error.velocity}</p>}
+            <div>
+                <label htmlFor="height">height</label>
+                <input type="text" name="height" value={pokeData.height} onChange={handleChange}/>
+            </div>
+            {error.height && <p>{error.height}</p>}
+            <div>
+                <label htmlFor="weight">weight</label>
+                <input type="text" name="weight"  value={pokeData.weight} onChange={handleChange}/>
+            </div>
+            {error.weight && <p>{error.weight}</p>}
             <div className={style.eachItem}>
                 <label htmlFor="types">types</label>
                 <select name="types" onChange={handleTypes} value={types.types}>
@@ -184,8 +212,10 @@ export default function Form() {
             {!plusToggle && types.types === types.types2 && <p>Please, each option type must be different</p>}
             {types.types === "allTypes" && <p>You must change the option 'All types'</p>}
             {types.types2 === "allTypes" && <p>You must change the option 'All types'</p>}
-            <button disabled={error.name || !pokeData.name || error.image || !pokeData.image || error.life || !pokeData.life || error.attack || !pokeData.attack || error.defense || !pokeData.defense || !types.types || types.types === "allTypes" || types.types2 === "allTypes" || types.types === types.types2 ||pokeData.image.length>255}>CREATE</button>
-            <button disabled={!pokeData.name && !pokeData.image && !pokeData.life && !pokeData.attack && !pokeData.defense && !types.types} onClick={clearAll}>Clear All</button>
+            <div className={style.buttonContainer}>
+            <button disabled={error.name || !pokeData.name || error.image || !pokeData.image || error.life || !pokeData.life || error.attack || !pokeData.attack || error.defense || !pokeData.defense || !types.types || types.types === "allTypes" || types.types2 === "allTypes" || types.types === types.types2 ||pokeData.image.length>255 || error.velocity || error.height || error.weight}>CREATE</button>
+            <button disabled={!pokeData.name && !pokeData.image && !pokeData.life && !pokeData.attack && !pokeData.defense && !types.types && !pokeData.velocity && !pokeData.height && !pokeData.weight} onClick={clearAll}>Clear All</button>
+            </div>
             <Link to="/home">
                 <button>back to Home</button>
             </Link>

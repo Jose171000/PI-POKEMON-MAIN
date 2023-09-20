@@ -1,8 +1,8 @@
 import SearchBar from "../SearchBar/SearchBar"
-export default function Nav (){
+export default function Nav ({handleClick}){
     return(
         <nav>
-            <SearchBar/>
+            <SearchBar handleClick={handleClick}/>
         </nav>
     )
 }

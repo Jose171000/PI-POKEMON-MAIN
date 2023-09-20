@@ -10,6 +10,6 @@ pokemonRoute.get("/:idPokemon", getPokeById)
 
 pokemonRoute.post("/", postPokemons)
 
-pokemonRoute.delete("/", deletePokemon)
+pokemonRoute.delete("/delete", deletePokemon)
 
 module.exports = { pokemonRoute }

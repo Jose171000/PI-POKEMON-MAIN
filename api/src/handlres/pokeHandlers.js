@@ -66,7 +66,7 @@ const deletePoke = async (id) => {
 const deletePokemon = async (req, res) => {
     console.log("estoy en deletePokemon");
     try {
-        const {id} = req.body
+        const {id} = req.query
         const deletePok = await deletePoke(id)
         res.json({result:deletePok})
     } catch (error) {

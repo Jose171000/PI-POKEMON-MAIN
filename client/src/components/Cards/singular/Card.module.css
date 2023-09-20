@@ -97,13 +97,13 @@
 
 .cardContainer:hover .closeButton {
     display: flex;
-    transition: 1s;
+    transition: .3s;
 
 }
 
 .closeButton:hover {
     opacity: 1;
-    transition: .3s;
+    transition: 0s;
     animation: pulse .8s infinite;
 }
 
