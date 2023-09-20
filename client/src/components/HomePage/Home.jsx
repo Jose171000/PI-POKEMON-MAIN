@@ -180,10 +180,10 @@ export default function HomePage() {
             <div className={style.menuContainer}>
 
                 <Nav handleClick={handleClick} />
-                {showAllToggle ? null : <button onClick={handleShowAllButton} value="SHOW ALL">Show all</button>}
+                {showAllToggle ? null : <button onClick={handleShowAllButton} value="SHOW ALL" className={style.menuButtons}>Show all</button>}
 
-                <button onClick={handleOrder}>{textToggle ? "A-Z" : "Z-A"}</button>
-                <button>
+                <button onClick={handleOrder} className={style.menuButtons}>{textToggle ? "A-Z" : "Z-A"}</button>
+                <button className={style.menuButtons}>
                     <select value={selectedOption} onChange={handleOptions}>
                         <option value="SHOW ALL">TYPES</option>
                         <option value="SHOW ALL">SHOW ALL </option>
@@ -210,10 +210,10 @@ export default function HomePage() {
 
                     </select>
                 </button>
-                <button value="SHOW ALL" onClick={filterAPI}>All from external API</button>
-                <button value="SHOW ALL" onClick={filterDB}>All from DB</button>
+                <button value="SHOW ALL" onClick={filterAPI} className={style.menuButtons}>All from external API</button>
+                <button value="SHOW ALL" onClick={filterDB} className={style.menuButtons}>All from DB</button>
                 <Link to="/form">
-                    <button>CREATE POKEMON</button>
+                    <button className={style.menuButtons}>CREATE POKEMON</button>
                 </Link>
                 <div className={style.paging}>
                     <button name="previous" value="SHOW ALL" onClick={handlePage} disabled={currentPage < 1}>PREVIOUS PAGE</button>

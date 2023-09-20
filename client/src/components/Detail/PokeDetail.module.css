@@ -15,6 +15,8 @@
 
     /* background-color: red; */
     position: relative;
+    margin: 25px;
+    overflow: hidden;
 }
 
 .paintTrail {
@@ -69,7 +71,7 @@
 .name {
     z-index: 1;
     pointer-events: none;
-    margin-top: -50px;
+    margin-top: 40px;
     animation: flame 4s infinite;
 
 }
@@ -86,6 +88,8 @@
     z-index: 1;
     border: 5px solid black;
     width: 250px;
+    margin-right: 30px;
+    margin-bottom: 50px;
     border-radius: 10px;
 }
 
@@ -96,8 +100,8 @@
     pointer-events: auto;
     position: relative;
     width: 100%;
-    margin-top: -10px;
-    margin-left: -90px;
+    margin-top: 10px;
+    margin-left: -50px;
     transition: .5s;
 
 }
